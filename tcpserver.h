@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QTcpServer>
 #include <QList>
+#include "tcpsocket.h"
+
 class TcpServer : public QTcpServer
 {
     Q_OBJECT
@@ -17,8 +19,10 @@ private:
     TcpServer();
     TcpServer(const TcpServer&) = delete;
     TcpServer& operator= (const TcpServer&) = delete;
-    QList<QTcpSocket*> m_tcpSocketList;
+    QList<TcpSocket*> m_tcpSocketList;
 
+public slots:
+    void removeSocket(TcpSocket* socket);
 };
 
 #endif // TCPSERVER_H
