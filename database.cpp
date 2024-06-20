@@ -75,6 +75,16 @@ void Database::offlinehandle(const char *name)
     query.exec(sql);
 }
 
+int Database::findUserHandle(const char *name)
+{
+    if(name == nullptr) return -1;
+    QString sql = QString("select online from user where name = '%1'").arg(name);
+    QSqlQuery query;
+    INFO << "query " << sql;
+    if(!query.exec(sql) || !query.next()) return -1; // 不存在这个用户
+    return query.value(0).toInt();
+}
+
 Database::~Database()
 {
     m_dbhandler.close();

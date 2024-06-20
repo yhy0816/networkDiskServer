@@ -11,9 +11,11 @@ public:
     static Database& getInstance();
     ~Database();
     bool connect();
+    //
     bool loginHandle(const char* name, const char* pwd);
     bool registHandle(const char* name, const char* pwd);
     void offlinehandle(const char* name);
+    int findUserHandle(const char* name);
 private:
     Database();
     Database(const Database&) = delete;

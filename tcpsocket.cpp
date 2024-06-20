@@ -49,6 +49,15 @@ void TcpSocket::onReadyRead()
             free(respone_pdu);
             break;
         }
+        case EnMsgType::FIND_FRIEND_MSG : {
+            int ret = Database::getInstance().findUserHandle(pdu->data);
+            PDU* respone_pdu = makePDU(0);
+            respone_pdu->msgType = EnMsgType::FIND_FRIEND_RESPONE;
+            memcpy(respone_pdu->data, &ret, sizeof(ret));
+            this->write(reinterpret_cast<char*>(respone_pdu), respone_pdu->totalLen);
+            free(respone_pdu);
+            break;
+        }
         default :{
             INFO << "未知消息";
         }

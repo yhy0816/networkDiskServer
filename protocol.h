@@ -7,7 +7,8 @@ enum class EnMsgType  {
     REGIST_RESPOND, // 注册消息响应
     LOGIN_MSG, // 登录消息
     LOGIN_RESPOND, // 登录消息响应
-
+    FIND_FRIEND_MSG, // 查找用户消息
+    FIND_FRIEND_RESPONE, // 查找用户响应
 };
 
 struct PDU { // 协议数据单元， 使用柔性数组存储数据
