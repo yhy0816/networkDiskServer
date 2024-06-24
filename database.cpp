@@ -85,6 +85,19 @@ int Database::findUserHandle(const char *name)
     return query.value(0).toInt();
 }
 
+QStringList Database::findOnlineUserHandle()
+{
+    QString sql = QString("select name from user where online = 1");
+    QSqlQuery query;
+    if(query.exec(sql) == false) return {};
+    INFO << "query " << sql;
+    QStringList list;
+    while(query.next()) {
+        list.append(query.value(0).toString());
+    }
+    return list;
+}
+
 Database::~Database()
 {
     m_dbhandler.close();

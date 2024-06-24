@@ -16,6 +16,7 @@ public:
     bool registHandle(const char* name, const char* pwd);
     void offlinehandle(const char* name);
     int findUserHandle(const char* name);
+    QStringList findOnlineUserHandle();
 private:
     Database();
     Database(const Database&) = delete;

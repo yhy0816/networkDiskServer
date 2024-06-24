@@ -3,6 +3,7 @@
 #include "logger.h"
 #include "database.h"
 
+
 TcpSocket::TcpSocket()
 {
     connect(this, &QTcpSocket::readyRead, this, &TcpSocket::onReadyRead);
@@ -54,6 +55,19 @@ void TcpSocket::onReadyRead()
             PDU* respone_pdu = makePDU(0);
             respone_pdu->msgType = EnMsgType::FIND_FRIEND_RESPONE;
             memcpy(respone_pdu->data, &ret, sizeof(ret));
+            this->write(reinterpret_cast<char*>(respone_pdu), respone_pdu->totalLen);
+            free(respone_pdu);
+            break;
+        }
+
+        case EnMsgType::GET_ONLINE_USERS_MSG : {
+            QStringList ret = Database::getInstance().findOnlineUserHandle();
+            PDU* respone_pdu = makePDU(ret.size() * 32);
+            respone_pdu->msgType = EnMsgType::GET_ONLINE_USERS_RESPONE;
+            for(int i = 0; i < ret.size(); i++) {
+                std::string cur_s = ret.at(i).toStdString();
+                memcpy(respone_pdu->msg + i * 32, cur_s.c_str(), cur_s.size());
+            }
             this->write(reinterpret_cast<char*>(respone_pdu), respone_pdu->totalLen);
             free(respone_pdu);
             break;

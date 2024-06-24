@@ -9,6 +9,8 @@ enum class EnMsgType  {
     LOGIN_RESPOND, // 登录消息响应
     FIND_FRIEND_MSG, // 查找用户消息
     FIND_FRIEND_RESPONE, // 查找用户响应
+    GET_ONLINE_USERS_MSG, // 获取在线用户消息
+    GET_ONLINE_USERS_RESPONE, // 获取在线用户响应
 };
 
 struct PDU { // 协议数据单元， 使用柔性数组存储数据
