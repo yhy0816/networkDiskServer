@@ -60,7 +60,7 @@ bool Database::registHandle(const char* name, const char* pwd)
         return false;
 
     }
-    sql = QString("insert into user(name, pwd) values('%1', '%2')").arg(name);
+    sql = QString("insert into user(name, pwd) values('%1', '%2')").arg(name).arg(pwd);
     INFO << "query " << sql;
 
     return query.exec(sql);

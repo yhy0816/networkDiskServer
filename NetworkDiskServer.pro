@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         database.cpp \
         main.cpp \
+        msghandler.cpp \
         protocol.cpp \
         server.cpp \
         tcpserver.cpp \
@@ -29,6 +30,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     database.h \
     logger.h \
+    msghandler.h \
     protocol.h \
     server.h \
     tcpserver.h \
