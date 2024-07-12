@@ -32,14 +32,21 @@ PDU *TcpSocket::readPDU()
     return pdu;
 }
 
+void TcpSocket::sendPDU(PDU *pdu)
+{
+    if(pdu == nullptr) return;
+    this->write(reinterpret_cast<char*>(pdu), pdu->totalLen);
+}
+
 void TcpSocket::onReadyRead()
 {
     PDU* msgPDU = readPDU();
     PDU* resPDU = m_msgHandler.handleMsg(msgPDU);
-    if(resPDU->msgType == EnMsgType::LOGIN_RESPOND) {
+
+    if(resPDU && resPDU->msgType == EnMsgType::LOGIN_RESPOND) {
         if(resPDU->data[0] == 1)this->set_name(msgPDU->data); // 如果登录成功
     }
-    this->write(reinterpret_cast<char*>(resPDU), resPDU->totalLen);
+    sendPDU(resPDU);
     free(msgPDU);
     free(resPDU);
 }

@@ -13,6 +13,7 @@ public:
     TcpSocket();
     QString get_userName() const {return m_userName;}
     PDU* readPDU();
+    void sendPDU(PDU* pdu);
     void set_name(const QString& name) {this->m_userName = name;}
 private:
     QString m_userName;

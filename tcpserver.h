@@ -12,7 +12,7 @@ class TcpServer : public QTcpServer
 public:
     void incomingConnection(qintptr handle) override;
     static TcpServer& getInstance();
-
+    void sendTo(const char* name, PDU* pdu);
 
 
 private:

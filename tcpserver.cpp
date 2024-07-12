@@ -17,6 +17,21 @@ TcpServer &TcpServer::getInstance()
     return tcpServer;
 }
 
+void TcpServer::sendTo(const char *name, PDU *pdu)
+{
+    if(name == nullptr || pdu == nullptr) {
+        return;
+
+    }
+
+    for(int i = 0; i < m_tcpSocketList.size(); i++) {
+        if(m_tcpSocketList.at(i)->get_userName() == name) {
+            m_tcpSocketList.at(i)->sendPDU(pdu);
+            break;
+        }
+    }
+}
+
 TcpServer::TcpServer()
 {
 

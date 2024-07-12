@@ -17,6 +17,10 @@ public:
     void offlinehandle(const char* name);
     int findUserHandle(const char* name);
     QStringList findOnlineUserHandle();
+    int friendhandle(const char* curname, const char* tarname);
+    void agreeFriendHandle(const char* curname, const char* tarname);
+    QStringList getFriendsHandle(const char* curname);
+    int removeFriendsHandle(const char *curname, const char *tarname);
 private:
     Database();
     Database(const Database&) = delete;
