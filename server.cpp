@@ -10,6 +10,12 @@ Server::Server(QObject *parent) : QObject(parent)
 
 
 
+Server &Server::getInstance()
+{
+    static Server server;
+    return server;
+}
+
 void Server::loadConf() {
     QFile confFile(":/server.conf");
     if(!confFile.open(QIODevice::ReadOnly)) {
@@ -17,7 +23,7 @@ void Server::loadConf() {
     }
     QString sport;
     QTextStream stream(&confFile);
-    stream >> m_listenIp >> sport;
+    stream >> m_listenIp >> sport >> m_rootPath;
 
     m_listenPort = sport.toUShort();
 

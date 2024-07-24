@@ -35,20 +35,49 @@ PDU *TcpSocket::readPDU()
 void TcpSocket::sendPDU(PDU *pdu)
 {
     if(pdu == nullptr) return;
+    INFO << "send: ";
+    m_msgHandler.printPDU(pdu);
     this->write(reinterpret_cast<char*>(pdu), pdu->totalLen);
+    free(pdu);
 }
 
 void TcpSocket::onReadyRead()
 {
-    PDU* msgPDU = readPDU();
-    PDU* resPDU = m_msgHandler.handleMsg(msgPDU);
+    INFO << "可读消息长度 " << this->bytesAvailable();
 
-    if(resPDU && resPDU->msgType == EnMsgType::LOGIN_RESPOND) {
-        if(resPDU->data[0] == 1)this->set_name(msgPDU->data); // 如果登录成功
+    QByteArray data = this->readAll();
+
+    buffer.append(data);
+
+    while(buffer.size() >= static_cast<int>(sizeof(PDU))) {
+        INFO << "loop" ;
+        PDU* pdu = reinterpret_cast<PDU*>(buffer.data());
+        int totalLen = pdu->totalLen;
+        if(totalLen > buffer.size()) {
+            break;
+        }
+        PDU* msgPDU = makePDU(pdu->msgLen);
+        memcpy(msgPDU, pdu, pdu->totalLen);
+        m_msgHandler.printPDU(msgPDU);
+        PDU* resPDU = m_msgHandler.handleMsg(msgPDU);
+        if(resPDU && resPDU->msgType == EnMsgType::LOGIN_RESPOND) {
+            if(resPDU->data[0] == 1)this->set_name(msgPDU->data); // 如果登录成功
+        }
+
+        INFO << "send:  " << (int)resPDU->msgType;
+        sendPDU(resPDU);
+
+        buffer.remove(0, totalLen);
     }
-    sendPDU(resPDU);
-    free(msgPDU);
-    free(resPDU);
+
+//    PDU* msgPDU = readPDU();
+//    PDU* resPDU = m_msgHandler.handleMsg(msgPDU);
+//    if(resPDU && resPDU->msgType == EnMsgType::LOGIN_RESPOND) {
+//        if(resPDU->data[0] == 1)this->set_name(msgPDU->data); // 如果登录成功
+//    }
+
+//    sendPDU(resPDU);
+//    free(resPDU);
 }
 
 void TcpSocket::onClientClose()

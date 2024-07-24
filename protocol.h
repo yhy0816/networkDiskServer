@@ -20,6 +20,20 @@ enum class EnMsgType  {
     REMOVE_FRIENDS_MSG,  // 删除好友列表
     REMOVE_FRIENDS_RESPONE, // 删除好友列表响应
     CHAT_MSG, // 聊天消息
+    MKDIR_MSG, // 新建文件夹消息
+    MKDIR_RESPONE, // 新建文件夹响应
+    GET_FILES_MSG, // 刷新文件消息
+    GET_FILES_RESPONE, // 刷新文件响应
+    DEL_DIR_MSG, // 删除文件夹消息
+    DEL_DIR_RESPONE, // 删除文件夹响应
+    DEL_FILE_MSG, // 删除文件消息
+    DEL_FILE_RESPONE, // 删除文件响应
+    RENAME_FILE_MSG, // 重命名文件消息
+    RENAME_FILE_RESPONE, // 重命名文件响应
+    MOVE_FILE_MSG, // 移动文件消息
+    MOVE_FILE_RESPONE, // 移动文件响应
+    UPLOAD_REQUEST_MSG, // 上传文件请求消息
+    UPLOAD_REQUEST_RESPONE, // 上传文件请求响应
 };
 
 struct PDU { // 协议数据单元， 使用柔性数组存储数据
@@ -29,6 +43,11 @@ struct PDU { // 协议数据单元， 使用柔性数组存储数据
     char data[64];   // 参数
     char msg[];  // 实际消息
 
+};
+
+struct FileInfo{
+    int fileType;
+    char fileName[32];
 };
 
 PDU* makePDU(uint msgLen);

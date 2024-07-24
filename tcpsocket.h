@@ -18,7 +18,7 @@ public:
 private:
     QString m_userName;
     MsgHandler m_msgHandler;
-
+    QByteArray buffer;
 
 public slots:
     void onReadyRead();

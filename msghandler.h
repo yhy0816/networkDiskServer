@@ -3,6 +3,8 @@
 
 #include "protocol.h"
 
+#include <QString>
+
 
 
 class MsgHandler
@@ -19,6 +21,16 @@ public:
     PDU* getFriendsMsg(PDU *pdu);
     PDU* removeFriendsMsg(PDU *pdu);
     void ChatMsg(PDU *pdu);
+    PDU* makeDir(PDU *pdu);
+    PDU* getFiles(PDU *pdu);
+    PDU* delDir(PDU *pdu);
+    PDU* delFile(PDU *pdu);
+    PDU* renameFile(PDU *pdu);
+    PDU* moveFile(PDU *pdu);
+    void printPDU(PDU *pdu);
+
+private:
+    QString mergePath(PDU* pdu);
 };
 
 #endif // MSGHANDLER_H

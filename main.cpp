@@ -5,6 +5,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     Database::getInstance().connect();
-    Server s;
+//    Server s;
+    Server::getInstance();
     return a.exec();
 }
